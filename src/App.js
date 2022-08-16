@@ -1,12 +1,13 @@
 import React from "react";
 import Sidebar from "./components/Sidebar";
 import MidArea from "./components/MidArea";
-import PreviewArea from "./components/PreviewArea";
 import Icon from "./components/Icon";
+import Canvas from "./components/Canvas";
 
 const icon = <Icon name="flag" size={15} className="text-green-600 mx-2" />;
 
 export default function App() {
+  const [draggedComponents, setDraggedComponents] = React.useState([]);
   const [tasks, setTasks] = React.useState([
     { name: "Events1", text: `When clicked`, currentScreen: "drag", type: "events" },
     { name: "Events2", text: "When this sprite clicked", currentScreen: "drag", type: "events" },
@@ -91,20 +92,41 @@ export default function App() {
     ev.preventDefault();
   }
 
+  const draw = context => {
+    // Insert your code to draw an image
+    // context.fillStyle = "rgb(200, 0, 0)";
+    // context.fillRect(5, 5, 10, 10);
+
+    // context.beginPath();
+    // const size = 20;
+    var img = new Image();
+    img.onload = function () {
+      context.drawImage(img, 0, 0);
+    }
+    img.src = 'cat.svg';
+    // for (let x = 0; x < 1000; x += size) {
+    //   context.clearRect(0, 0, 1000, 1000); // Clean up
+    //   context.fillRect(0, 10, size, size);
+    // }
+    // let x = 0;
+    // const id = setInterval(() => {
+    //   context.clearRect(0, 0, 1000, 1000);
+    //   context.fillRect(10, 10, size, size);
+    //   x += size;
+
+    //   if (x >= 1000) {
+    //     clearInterval(id);
+    //   }
+    // }, 200);
+  }
+
   const onDrop = (ev, cat) => {
     let id = ev.dataTransfer.getData("id");
     console.log("id", id);
-    let task = tasks.filter((currenttask) => {
-      if (currenttask.name == id) {
-        currenttask.currentScreen = cat;
-        console.log("current", currenttask);
-        console.log("cat", cat);
-        currenttask.type == "events" ? setTypeOne(currenttask.type) : (currenttask.type == "motion" ? setTypeTwo(currenttask.type) : (currenttask.type == "looks" ? setTypeThree(currenttask.type) : setTypeFour(currenttask.type)));
-      }
-      return currenttask;
-    });
+    let task = tasks.find((currenttask) => currenttask.name === id);
     console.log(task);
-    setTasks(task);
+    // setTasks(task);
+    setDraggedComponents([...draggedComponents, task])
   }
 
   return (
@@ -121,10 +143,12 @@ export default function App() {
             typeThree={typeThree}
             typeFour={typeFour}
             list={tasks}
-            currentDrag={currentDrag} />
+            currentDrag={currentDrag} 
+            draggedComponents={draggedComponents}/>
         </div>
         <div className="w-1/3 h-screen overflow-hidden flex flex-row bg-white border-t border-l border-gray-200 rounded-tl-xl ml-2">
-          <PreviewArea />
+          {/* <PreviewArea /> */}
+          <Canvas draw={draw} height={510} width={382} />
         </div>
       </div>
     </div>

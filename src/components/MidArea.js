@@ -7,7 +7,7 @@ import Control from "./Control";
 
 export default function MidArea(props) {
 
-  const [name] = React.useState({motionName: "", eventName: "", looksName: "", controlName: ""});
+  const [name] = React.useState({ motionName: "", eventName: "", looksName: "", controlName: "" });
 
   const onDragOver = (ev) => {
     ev.preventDefault();
@@ -20,15 +20,15 @@ export default function MidArea(props) {
 
   const currentDrag = () => {
     // let name = {motionName: "", eventName: ""};
-    for( let i = 0; i < props.list.length ; i++){
-      if(props.currentDrag.name == props.list[i].name){
-        if(props.currentDrag.type == "motion"){
+    for (let i = 0; i < props.list.length; i++) {
+      if (props.currentDrag.name == props.list[i].name) {
+        if (props.currentDrag.type == "motion") {
           name.motionName = props.currentDrag.text;
         }
-        else if (props.currentDrag.type == "events"){
+        else if (props.currentDrag.type == "events") {
           name.eventName = props.currentDrag.text;
         }
-        else if (props.currentDrag.type == "looks"){
+        else if (props.currentDrag.type == "looks") {
           name.looksName = props.currentDrag.text;
         }
         else {
@@ -39,6 +39,26 @@ export default function MidArea(props) {
     return name;
   }
 
+  const handleMotion = () => {
+    console.log("handlemotion");
+  }
+
+  const toRender = (i) => {
+    switch (i.type) {
+      case "events":
+        return (<Events text={i.text} />)
+        break;
+      case "motion":
+        return (<Motion text={i.text} />)
+        break;
+      case "looks":
+        return (<Looks text={i.text} />)
+        break;
+      case "control":
+        return (<Control text={i.text} />)
+    }
+  }
+
   return (
     <>
       <div className="droppable"
@@ -46,14 +66,7 @@ export default function MidArea(props) {
         onDragOver={(ev) => onDragOver(ev)}
       >
         <span className="task-header">Script Area</span>
-        {props.typeOne == "events" ? <Events
-        text={currentDrag().eventName}/> : ""}
-        {props.typeTwo == "motion" ? <Motion 
-        text={currentDrag().motionName} /> : ""}
-        {props.typeThree == "looks" ? <Looks 
-        text={currentDrag().looksName} /> : ""}
-        {props.typeFour == "control" ? <Control 
-        text={currentDrag().controlName} /> : ""}
+        {props.draggedComponents.length > 0 && props.draggedComponents.map((i) => toRender(i))}
       </div>
     </>
   );
