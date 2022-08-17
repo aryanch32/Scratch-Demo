@@ -49,7 +49,7 @@ export default function MidArea(props) {
         return (<Events text={i.text} />)
         break;
       case "motion":
-        return (<Motion text={i.text} />)
+        return (<Motion text={i.text} onClick={props.move} />)
         break;
       case "looks":
         return (<Looks text={i.text} />)

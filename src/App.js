@@ -76,6 +76,8 @@ export default function App() {
   const [typeFour, setTypeFour] = React.useState("");
   const [currentDrag, setCurrentDrag] = React.useState({});
 
+  const [count, setCount] = React.useState(0);
+
   const onDragStart = (ev, id) => {
     console.log('dragstart:', tasks[0].name);
     let currentId = "";
@@ -120,13 +122,28 @@ export default function App() {
     // }, 200);
   }
 
+  const move = (ctx) => {
+    console.log("move in appjs");
+    console.log("count", count);
+    // setCount(count+1);
+    var img = new Image()
+    img.onClick = function () {
+      ctx.drawImage(img, 200, 100);
+      console.log("inside onclick")
+    }
+    img.src = 'cat.svg';
+    console.log("outside onclick");
+  }
+
   const onDrop = (ev, cat) => {
     let id = ev.dataTransfer.getData("id");
     console.log("id", id);
     let task = tasks.find((currenttask) => currenttask.name === id);
     console.log(task);
     // setTasks(task);
-    setDraggedComponents([...draggedComponents, task])
+    setDraggedComponents([...draggedComponents, task]);
+    setCount(count+1);
+
   }
 
   return (
@@ -143,12 +160,14 @@ export default function App() {
             typeThree={typeThree}
             typeFour={typeFour}
             list={tasks}
-            currentDrag={currentDrag} 
-            draggedComponents={draggedComponents}/>
+            currentDrag={currentDrag}
+            draggedComponents={draggedComponents}
+            move={move} />
         </div>
         <div className="w-1/3 h-screen overflow-hidden flex flex-row bg-white border-t border-l border-gray-200 rounded-tl-xl ml-2">
           {/* <PreviewArea /> */}
-          <Canvas draw={draw} height={510} width={382} />
+          {/* <Canvas draw={draw} height={510} width={382} /> */}
+          <Canvas />
         </div>
       </div>
     </div>

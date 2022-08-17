@@ -406,7 +406,7 @@ export default function Sidebar(props) {
         draggable
         onDragStart={(e) => onDragStart(e, "Looks18")}
       >
-        <Checkbox />
+        <Checkbox type={"checkbox"}/>
         {"costume "}
         <Select bgColor={"purple"}
           list={["number", "name"]} />
@@ -415,7 +415,7 @@ export default function Sidebar(props) {
         draggable
         onDragStart={(e) => onDragStart(e, "Looks19")}
       >
-        <Checkbox />
+        <Checkbox type={"checkbox"}/>
         {"backdrop "}
         <Select bgColor={"purple"}
           list={["number", "name"]} />
@@ -424,7 +424,7 @@ export default function Sidebar(props) {
         draggable
         onDragStart={(e) => onDragStart(e, "Looks20")}
       >
-        <Checkbox />
+        <Checkbox type={"checkbox"}/>
         {"size"}
       </div>
       <div className="font-bold"> {"Control"} </div>
